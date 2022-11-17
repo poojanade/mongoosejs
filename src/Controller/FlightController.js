@@ -1,9 +1,10 @@
+const { db, aggregate } = require("../models/flight")
 const FlightModel = require("../models/flight")
 const FlightBookingModel = require("../models/ticket")
 
     exports.createFlight = async (req, res) => {
         try {
-            const { flightNo, flightName, travel_btw_cities, flight_timmings,  planeCategory} = req.body
+            const { flightNo, flightName, from, to, flight_timmings,  planeCategory} = req.body
             const check = await FlightModel.findOne({ flightNo: flightNo })
 
             if (check) {
@@ -13,7 +14,8 @@ const FlightBookingModel = require("../models/ticket")
             const doc = new FlightModel({
                 flightNo: flightNo,
                 flightName: flightName,
-                travel_btw_cities: travel_btw_cities,
+                from: from,
+                to: to,
                 flight_timmings: flight_timmings,
                 planeCategory: planeCategory,
 
@@ -47,12 +49,13 @@ const FlightBookingModel = require("../models/ticket")
                     date: date,
                     flightNo: check.flightNo,
                     flightName: check.flightName,
-                    travel_btw_cities: check.travel_btw_cities,
+                    from: check.from,
+                    to: check.to,
                     planeCategory: check.planeCategory,
                 });
 
                 const result = await doc.save();
-                res.send(`Your ticket is successsfully booked of ${result.travel_btw_cities} at ${result.date}`);
+                res.send(`Your ticket is successsfully booked from ${result.from} to ${result.to} at ${result.date}`);
             }
             else {
                 res.send("No plane Exist");
@@ -70,4 +73,6 @@ const FlightBookingModel = require("../models/ticket")
             res.status(500).send()
         }
     }
+    
+   
 

@@ -10,10 +10,14 @@ const flightSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    travel_btw_cities: {
+    from: {
         type: String,
-        required: true
-    },
+        required: true,
+      },
+      to: {
+        type: String,
+        required: true,
+      },
     flight_timmings: {
         type: String,
         required: true
